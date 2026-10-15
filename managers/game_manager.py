@@ -19,22 +19,38 @@ CONTROL_SCHEMES = ["arrows", "wasd"]
 DIFFICULTIES    = ["easy", "normal", "hard"]
 DIFFICULTY_LABELS = {"easy": "Easy", "normal": "Normal", "hard": "Hard"}
 
-# Difficulty multipliers (enemy spawn count modifier)
+
 DIFFICULTY_SPAWN = {"easy": 3, "normal": 5, "hard": 8}
 
-DARK_BG   = (6,  6,  18)
-ACCENT    = (0,  220, 100)
-WHITE     = (255, 255, 255)
-GRAY      = (140, 140, 155)
-DARK_BTN  = (25, 28, 52)
-SEL_BTN   = (0,  160, 72)
-SEL_BTN_H = (0,  200, 90)          # lighter shade for top of button
-RED_ERR   = (255, 80,  80)
-GOLD      = (255, 215, 0)
-PANEL_BG  = (12, 14, 32)
-PANEL_BOR = (38, 42, 78)
-FIELD_BG  = (18, 20, 42)
-ACCENT_DIM = (0, 120, 55)          # subtle glow colour
+# ============================================================
+# PINK + PURPLE NEON THEME
+# ==========================================================
+DARK_BG = (12, 5, 25)
+SPACE_BG = (20, 7, 38)
+PINK = (255, 70, 170)
+ACCENT = PINK
+HOT_PINK = (255, 40, 140)
+LIGHT_PINK = (255, 170, 220)
+PURPLE = (155, 70, 255)
+NEON_PURPLE = (190, 70, 255)
+LIGHT_PURPLE = (215, 160, 255)
+WHITE = (255, 245, 255)
+GRAY = (175, 155, 190)
+DARK_TEXT = (80, 50, 100)
+DARK_BTN = (35, 15, 60)
+BTN_BORDER = (150, 60, 220)
+SEL_BTN = (120, 40, 180)
+SEL_BTN_H = (180, 55, 230)
+RED_ERR = (255, 80, 130)
+GOLD = (255, 220, 120)
+PANEL_BG = (25, 10, 45)
+PANEL_BOR = (120, 45, 180)
+FIELD_BG = (35, 15, 60)
+PINK_DIM = (150, 35, 100)
+PURPLE_DIM = (80, 30, 130)
+CARD_BG = (30, 12, 52)
+GLOW_PINK = (255, 80, 180)
+GLOW_PURPLE = (170, 70, 255)
 
 
 def draw_option_row(screen, font, label, options, selected, y, x_start, item_w=120, item_h=40):
@@ -153,13 +169,20 @@ def draw_glow_title(screen, big_font, text, cx, y, color=ACCENT):
 
 
 def draw_stars(screen, stars):
-    """Draw a simple star-field background."""
+    """Draw a red outer-space star field."""
     t = pygame.time.get_ticks()
+
     for i, (x, y, r, brightness) in enumerate(stars):
-        # Subtle twinkle: offset brightness by a sine-like pattern
         flicker = int(brightness + 30 * ((t // 800 + i * 37) % 3 - 1) * 0.3)
         flicker = max(40, min(220, flicker))
-        pygame.draw.circle(screen, (flicker, flicker, flicker), (x, y), r)
+
+        # White/red stars
+        if i % 4 == 0:
+            star_color = (255, flicker // 2, flicker // 2)
+        else:
+            star_color = (flicker, flicker, flicker)
+
+        pygame.draw.circle(screen, star_color, (x, y), r)
 
 
 def generate_stars(screen_width, screen_height, count=150):
